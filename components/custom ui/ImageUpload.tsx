@@ -16,7 +16,7 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
     
     onChange(result.info.secure_url);
   };
-  console.log("images: ", value);
+  
 
   return (
     <div className="flex flex-col gap-3 ">

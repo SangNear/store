@@ -37,14 +37,12 @@ const MultiText = ({
         }}
       />
       <div>
-        {value.map((tag) => {
-          console.log("tags", tag);
-
+        {value.map((tag,index) => {
           return (
-            <Badge className="bg-blue-1 text-white-1 mr-1 mt-1">
+            <Badge className="bg-blue-1 text-white-1 mr-1 mt-1" key={index}>
               {tag}
-              <Button className="p-0" size="sm">
-                <X className="text-heading4-bold" />
+              <Button className="p-0  hover:text-red-500" size="sm" type="button" onClick={() => onRemove(tag)}>
+                <X className="text-base-medium" />
               </Button>
             </Badge>
           );
