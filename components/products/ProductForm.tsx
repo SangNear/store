@@ -46,6 +46,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
   const [loading, setLoading] = useState(false);
   const [collections, setCollections] = useState<CollectionsTypes[]>([])
   const route = useRouter();
+
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {
@@ -219,7 +220,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                     <MultiText
                       placeholder="Tags"
                       value={field.value}
-                      onChange={(tag) => field.onChange([...field.value, tag])}
+                      onChange={(tag: string) => field.onChange([...field.value, tag])}
                       onRemove = {(tagToRemove) =>  field.onChange([...field.value.filter((tag) => tag !== tagToRemove)])}
                     />
                   </FormControl>
@@ -240,6 +241,42 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                       value={field.value}
                       onChange={(_id) => field.onChange([...field.value, _id])}
                       onRemove = {(idToRemove) =>  field.onChange([...field.value.filter((collectionId) => collectionId !== idToRemove)])}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="colors"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Colors</FormLabel>
+                  <FormControl>
+                    <MultiText
+                      placeholder="Color"
+                      value={field.value}
+                      onChange={(color: string) => field.onChange([...field.value, color])}
+                      onRemove = {(colorToRemove) =>  field.onChange([...field.value.filter((color) => color !== colorToRemove)])}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="sizes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sizes</FormLabel>
+                  <FormControl>
+                    <MultiText
+                      placeholder="Size"
+                      value={field.value}
+                      onChange={(size: string) => field.onChange([...field.value, size])}
+                      onRemove = {(sizeToRemove) =>  field.onChange([...field.value.filter((size) => size !== sizeToRemove)])}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500" />

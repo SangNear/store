@@ -19,8 +19,8 @@ const MultiText = ({
   onRemove,
 }: MultiTextProps) => {
   const [inputvalue, setInputvalue] = useState("");
-  const addTag = (tag: string) => {
-    onChange(tag);
+  const addValue = (item: string) => {
+    onChange(item);
     setInputvalue("");
   };
   return (
@@ -32,18 +32,18 @@ const MultiText = ({
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();
-            addTag(inputvalue);
+            addValue(inputvalue);
           }
         }}
       />
       <div>
-        {value.map((tag,index) => {
+        {value.map((item,index) => {
           return (
             <Badge className="bg-blue-1 text-white-1 mr-1 mt-1" key={index}>
-              {tag}
-              <Button className="p-0  hover:text-red-500" size="sm" type="button" onClick={() => onRemove(tag)}>
+              {item}
+              <button className="p-0  hover:text-red-500" type="button" onClick={() => onRemove(item)}>
                 <X className="text-base-medium" />
-              </Button>
+              </button>
             </Badge>
           );
         })}

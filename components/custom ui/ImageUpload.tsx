@@ -17,6 +17,7 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
     onChange(result.info.secure_url);
   };
   
+console.log("value image", value);
 
   return (
     <div className="flex flex-col gap-3 ">
@@ -34,7 +35,7 @@ const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
         }}
       </CldUploadWidget>
       <div className="flex items-center gap-3">
-        {value &&
+        {
           value.map((item, index) => {
             return (
               <div key={index} className="relative w-[200px] h-[200px]">

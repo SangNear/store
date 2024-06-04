@@ -8,7 +8,7 @@ const CollectionDetail = ({ params }: { params: { collectionId: string } }) => {
   const [collectionDetail, setcollectionDetail] =
     useState<CollectionsTypes | null>(null);
   const [loading, setLoading] = useState(true);
-  const getColletionDetail = async () => {
+  const getCollectionDetail = async () => {
     try {
       const res = await fetch(`/api/collections/${params.collectionId}`);
       const data = await res.json();
@@ -19,7 +19,7 @@ const CollectionDetail = ({ params }: { params: { collectionId: string } }) => {
     }
   };
   useEffect(() => {
-    getColletionDetail();
+    getCollectionDetail();
   }, []);
   console.log("detail", collectionDetail);
 
