@@ -1,9 +1,30 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import Product from '@/lib/models/Product'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const ProductsPage = () => {
+  const [products, setProducts] = useState<ProductType[]>([])
+  const getAllProducts = async () => {
+    try {
+      const res = await fetch("/api/products", {
+        method: "GET"
+      })
+      const data = await res.json()
+      setProducts(data)
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+  useEffect(() => {
+    getAllProducts()
+  }, [])
+
+  console.log("data product:", products);
+  
   return (
     <div className='px-10 py-5'>
       <div className='flex justify-between'>

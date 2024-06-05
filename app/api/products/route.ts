@@ -1,6 +1,7 @@
 import Product from "@/lib/models/Product";
 import { connectDB } from "@/lib/mongoDB";
 import { auth } from "@clerk/nextjs";
+import { Collection } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
@@ -48,3 +49,21 @@ export const POST = async (req: NextRequest) => {
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
+
+export const GET = async (req: NextRequest) => {
+  try {
+    const { userId } = auth()
+    if (!userId) {
+      return new NextResponse("Unauthorized user", { status: 403 });
+    }
+    await connectDB()
+    const products = await Product.find()
+      .sort({ createdAt: "desc" })
+      
+    return NextResponse.json(products, { status: 200 })
+  } catch (error) {
+    console.log(error);
+
+    return new NextResponse("Internal Errors", { status: 500 })
+  }
+}

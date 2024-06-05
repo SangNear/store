@@ -69,7 +69,7 @@ const CollectionForm = ({ inititalValue }: CollectionFormProps) => {
   return (
     <div className="p-10 w-full">
       <div className="flex justify-between items-center">
-        <p className="text-heading2-bold">Collections</p>
+        <p className="text-heading2-bold">{inititalValue? "Update Collection" : "Create Collection"}</p>
         {inititalValue ? <Delete id={inititalValue._id} /> : ""}
       </div>
 

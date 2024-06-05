@@ -27,6 +27,7 @@ console.log("value image", value);
             <Button
               className="bg-blue-2 text-grey-1 flex items-center gap-2"
               onClick={() => open()}
+              type="button"
             >
               <p>Upload an Image</p>
               <Upload />

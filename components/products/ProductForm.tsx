@@ -107,11 +107,11 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
       console.log(error);
     }
   };
-  console.log("collections", collections);
+  
   return (
     <div className="p-10 w-full">
       <div className="flex justify-between items-center">
-        <p className="text-heading2-bold">Collections</p>
+        <p className="text-heading2-bold">{inititalValue? "Update Product" : "Create Product"}</p>
         {inititalValue ? <Delete id={inititalValue._id} /> : ""}
       </div>
 
