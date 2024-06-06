@@ -1,4 +1,6 @@
 "use client"
+import { DataTable } from '@/components/custom ui/DataTable'
+import { columns } from '@/components/products/ProductColumn'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import Product from '@/lib/models/Product'
@@ -24,7 +26,7 @@ const ProductsPage = () => {
   }, [])
 
   console.log("data product:", products);
-  
+
   return (
     <div className='px-10 py-5'>
       <div className='flex justify-between'>
@@ -34,6 +36,7 @@ const ProductsPage = () => {
         </Button>
       </div>
       <Separator className="bg-grey-1 my-4" />
+      <DataTable columns={columns} data={products} searchKey='title' />
     </div>
   )
 }

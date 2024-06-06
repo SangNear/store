@@ -15,21 +15,23 @@ import {
 import toast from "react-hot-toast";
 
 interface DeleteProps {
+  item: string
   id: string;
 }
 
-const Delete = ({ id }: DeleteProps) => {
+const Delete = ({ id, item }: DeleteProps) => {
   const [loading, setLoading] = useState(true);
+  const itemType = item === "products" ? "product" : "collections"
   const onDelete = async () => {
     try {
-      const res = await fetch(`api/collections/${id}`, {
+      const res = await fetch(`api/${itemType}/${id}`, {
         method: "DELETE",
       });
 
       if (res.ok) {
         setLoading(false)
-        window.location.href = "/collections";
-        toast.success("Collections deleted");
+        window.location.href = `/${itemType}`;
+        toast.success(`${item} deleted`);
       }
     } catch (error) {
       console.log(error);
@@ -48,7 +50,7 @@ const Delete = ({ id }: DeleteProps) => {
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            Collections and remove your data from our servers.
+            {item} and remove your data from our servers.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
