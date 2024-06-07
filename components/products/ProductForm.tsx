@@ -54,35 +54,40 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
       })
       const data = await res.json()
       setCollections(data)
-      
-      
+
+
     } catch (error) {
       console.log(error);
-      
+
     }
   }
 
   useEffect(() => {
     getCollections()
-    
-    
+
+
   }, [])
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: inititalValue
-      ? inititalValue
+      ? {
+        ...inititalValue,
+        collections: inititalValue.collections.map(
+          (collection) => collection._id
+        ),
+      }
       : {
-          title: "",
-          description: "",
-          media: [],
-          category: "",
-          collections: [],
-          tags: [],
-          sizes: [],
-          colors: [],
-          price: 0.1,
-          expense: 0.1,
-        },
+        title: "",
+        description: "",
+        media: [],
+        category: "",
+        collections: [],
+        tags: [],
+        sizes: [],
+        colors: [],
+        price: 0.1,
+        expense: 0.1,
+      },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -107,11 +112,11 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
       console.log(error);
     }
   };
-  
+
   return (
     <div className="p-10 w-full">
       <div className="flex justify-between items-center">
-        <p className="text-heading2-bold">{inititalValue? "Update Product" : "Create Product"}</p>
+        <p className="text-heading2-bold">{inititalValue ? "Update Product" : "Create Product"}</p>
         {inititalValue ? <Delete item="products" id={inititalValue._id} /> : ""}
       </div>
 
@@ -221,7 +226,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                       placeholder="Tags"
                       value={field.value}
                       onChange={(tag: string) => field.onChange([...field.value, tag])}
-                      onRemove = {(tagToRemove) =>  field.onChange([...field.value.filter((tag) => tag !== tagToRemove)])}
+                      onRemove={(tagToRemove) => field.onChange([...field.value.filter((tag) => tag !== tagToRemove)])}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500" />
@@ -240,7 +245,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                       collections={collections}
                       value={field.value}
                       onChange={(_id) => field.onChange([...field.value, _id])}
-                      onRemove = {(idToRemove) =>  field.onChange([...field.value.filter((collectionId) => collectionId !== idToRemove)])}
+                      onRemove={(idToRemove) => field.onChange([...field.value.filter((collectionId) => collectionId !== idToRemove)])}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500" />
@@ -258,7 +263,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                       placeholder="Color"
                       value={field.value}
                       onChange={(color: string) => field.onChange([...field.value, color])}
-                      onRemove = {(colorToRemove) =>  field.onChange([...field.value.filter((color) => color !== colorToRemove)])}
+                      onRemove={(colorToRemove) => field.onChange([...field.value.filter((color) => color !== colorToRemove)])}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500" />
@@ -276,7 +281,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                       placeholder="Size"
                       value={field.value}
                       onChange={(size: string) => field.onChange([...field.value, size])}
-                      onRemove = {(sizeToRemove) =>  field.onChange([...field.value.filter((size) => size !== sizeToRemove)])}
+                      onRemove={(sizeToRemove) => field.onChange([...field.value.filter((size) => size !== sizeToRemove)])}
                     />
                   </FormControl>
                   <FormMessage className="text-red-500" />
