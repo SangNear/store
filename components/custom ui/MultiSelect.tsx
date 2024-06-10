@@ -23,14 +23,19 @@ interface MultiSelectProps {
 const MultiSelect = ({ placeholder, collections, value, onChange, onRemove }: MultiSelectProps) => {
     const [open, setOpen] = useState(false)
     const [inputValue, setInputValue] = useState("")
+
+    
     let selected: CollectionsTypes[]
     if (value.length === 0) {
         selected = []
     }
     else {
-        selected = value.map((idValue) => collections.find((collection) => collection._id === idValue) as CollectionsTypes)
+        selected = value.map((id) => collections.find((collection) => collection._id === id)) as CollectionsTypes[];
     }
-
+    console.log("collections from multiSelect:", collections);
+    
+    console.log("value multiselect:", value);
+    
     console.log("selected:", selected);
 
     let selectable: CollectionsTypes[]

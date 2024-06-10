@@ -11,7 +11,6 @@ const ProductDetail = ({ params }: { params: { productId: string } }) => {
 
   const getProduct = async () => {
     try {
-      
       const res = await fetch(`/api/products/${params.productId}`, {
         method: "GET"
       })

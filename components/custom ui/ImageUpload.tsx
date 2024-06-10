@@ -12,12 +12,12 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ value, onChange, onRemove }: ImageUploadProps) => {
   const onUpload = (result: any) => {
-    console.log("onchange result", result);
+    
     
     onChange(result.info.secure_url);
   };
   
-console.log("value image", value);
+
 
   return (
     <div className="flex flex-col gap-3 ">

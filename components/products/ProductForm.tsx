@@ -1,6 +1,6 @@
 "use client";
 import { Separator } from "../ui/separator";
-import { array, string, z } from "zod";
+import {  z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -17,14 +17,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "../ui/textarea";
 import ImageUpload from "../custom ui/ImageUpload";
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import Delete from "../custom ui/Delete";
 import MultiText from "../custom ui/MultiText";
-import { auth } from "@clerk/nextjs";
-import { connectDB } from "@/lib/mongoDB";
-import Collection from "@/lib/models/Collection";
 import MultiSelect from "../custom ui/MultiSelect";
+import Loader from "../custom ui/Loader";
 const formSchema = z.object({
   title: z.string().min(2).max(50),
   description: z.string().min(2).max(50).trim(),
@@ -43,24 +41,27 @@ interface ProductFormProps {
 }
 
 const ProductForm = ({ inititalValue }: ProductFormProps) => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState<CollectionsTypes[]>([])
   const route = useRouter();
 
+
+  console.log("initial value product form:", inititalValue);
+  console.log("collections", collections);
+  
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {
-        method: "GET"
-      })
-      const data = await res.json()
-      setCollections(data)
-
-
-    } catch (error) {
-      console.log(error);
-
+        method: "GET",
+      });
+      const data = await res.json();
+      setCollections(data);
+      setLoading(false);
+    } catch (err) {
+      console.log("[collections_GET]", err);
+      toast.error("Something went wrong! Please try again.");
     }
-  }
+  };
 
   useEffect(() => {
     getCollections()
@@ -113,7 +114,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
     }
   };
 
-  return (
+  return loading? <Loader/> : (
     <div className="p-10 w-full">
       <div className="flex justify-between items-center">
         <p className="text-heading2-bold">{inititalValue ? "Update Product" : "Create Product"}</p>
@@ -233,25 +234,35 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="collections"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Collections</FormLabel>
-                  <FormControl>
-                    <MultiSelect
-                      placeholder="Collection"
-                      collections={collections}
-                      value={field.value}
-                      onChange={(_id) => field.onChange([...field.value, _id])}
-                      onRemove={(idToRemove) => field.onChange([...field.value.filter((collectionId) => collectionId !== idToRemove)])}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
+            {collections.length > 0 && (
+              <FormField
+                control={form.control}
+                name="collections"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Collections</FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        placeholder="Collections"
+                        collections={collections}
+                        value={field.value}
+                        onChange={(_id) =>
+                          field.onChange([...field.value, _id])
+                        }
+                        onRemove={(idToRemove) =>
+                          field.onChange([
+                            ...field.value.filter(
+                              (collectionId) => collectionId !== idToRemove
+                            ),
+                          ])
+                        }
+                      />
+                    </FormControl>
+                    <FormMessage className="text-red-1" />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="colors"

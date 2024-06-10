@@ -10,7 +10,7 @@ export const GET = async (req: NextRequest,
 ) => {
   try {
     await connectDB();
-    const productDetail = await Product.findById(params.productId);
+    const productDetail = await Product.findById(params.productId).populate({path: "collections", model: Collection});
     if (!productDetail) {
       return new NextResponse("Product not found", { status: 404 });
     }
