@@ -43,7 +43,17 @@ export const POST = async (req: NextRequest) => {
       expense,
     });
 
-    await newProduct.save();
+    await newProduct.save();  
+
+    if(collections) {
+      for(const collectionId of collections) {
+        const collection = await Collection.findById(collectionId)
+        if(collection) {
+          collection.product.push(newProduct._id)
+          await collection.save()
+        }
+      }
+    }
     return NextResponse.json(newProduct, { status: 200 });
   } catch (error) {
     console.log(error);
@@ -56,7 +66,8 @@ export const GET = async (req: NextRequest) => {
     
     await connectDB()
     const products = await Product.find()
-      
+      .sort({ createdAt: "desc" })
+      .populate({ path: "collections", model: Collection });
       
     return NextResponse.json(products, { status: 200 })
   } catch (error) {

@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import Delete from "../custom ui/Delete";
 import Link from "next/link";
 
+
+
 export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "title",
@@ -23,6 +25,7 @@ export const columns: ColumnDef<ProductType>[] = [
   {
     accessorKey: "price",
     header: "Price ($)",
+    
     
   },
   {

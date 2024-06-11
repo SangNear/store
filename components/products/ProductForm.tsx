@@ -46,8 +46,8 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
   const route = useRouter();
 
 
-  console.log("initial value product form:", inititalValue);
-  console.log("collections", collections);
+   console.log("initial value product form:", inititalValue);
+  // console.log("collections", collections);
   
   const getCollections = async () => {
     try {
@@ -107,7 +107,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
         route.push("/products");
       } else {
         setLoading(false);
-        toast.error("Collection failed to create!");
+        toast.error("Product failed to create!");
       }
     } catch (error) {
       console.log(error);
