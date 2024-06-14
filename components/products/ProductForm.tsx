@@ -1,6 +1,6 @@
 "use client";
 import { Separator } from "../ui/separator";
-import {  z } from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -43,12 +43,13 @@ interface ProductFormProps {
 const ProductForm = ({ inititalValue }: ProductFormProps) => {
   const [loading, setLoading] = useState(true);
   const [collections, setCollections] = useState<CollectionsTypes[]>([])
+  const [images, setImages] = useState([])
   const route = useRouter();
 
 
-   console.log("initial value product form:", inititalValue);
+  console.log("initial value product form:", inititalValue);
   // console.log("collections", collections);
-  
+
   const getCollections = async () => {
     try {
       const res = await fetch("/api/collections", {
@@ -114,7 +115,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
     }
   };
 
-  return loading? <Loader/> : (
+  return loading ? <Loader /> : (
     <div className="p-10 w-full">
       <div className="flex justify-between items-center">
         <p className="text-heading2-bold">{inititalValue ? "Update Product" : "Create Product"}</p>
@@ -164,7 +165,12 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                 <FormControl>
                   <ImageUpload
                     value={field.value}
-                    onChange={(url) => field.onChange([...field.value, url])}
+                    onChange={(url) => {
+                      console.log("before add", field.value);
+                      const newValue = [...field.value, url];
+                      field.onChange(newValue);
+                      console.log("after add", newValue);
+                    }}
                     onRemove={(url) =>
                       field.onChange([
                         ...field.value.filter((image) => image !== url),
