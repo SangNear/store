@@ -47,7 +47,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
   const route = useRouter();
 
 
-  console.log("initial value product form:", inititalValue);
+  // console.log("initial value product form:", inititalValue);
   // console.log("collections", collections);
 
   const getCollections = async () => {
@@ -139,6 +139,7 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="description"
@@ -165,23 +166,27 @@ const ProductForm = ({ inititalValue }: ProductFormProps) => {
                 <FormControl>
                   <ImageUpload
                     value={field.value}
+                    
                     onChange={(url) => {
-                      console.log("before add", field.value);
+                      console.log("before add", [...field.value, url]);
                       const newValue = [...field.value, url];
                       field.onChange(newValue);
                       console.log("after add", newValue);
                     }}
+
                     onRemove={(url) =>
                       field.onChange([
                         ...field.value.filter((image) => image !== url),
                       ])
                     }
+
                   />
                 </FormControl>
                 <FormMessage className="text-red-500" />
               </FormItem>
             )}
           />
+
           <div className="md:grid md:grid-cols-3 gap-8">
             <FormField
               control={form.control}

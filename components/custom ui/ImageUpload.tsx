@@ -33,6 +33,7 @@ console.log("value image", value);
                   fill
                   alt="collections"
                   className="object-contain rounded-md bg-cover bg-center"
+                  sizes="200px"
                 />
               </div>
             );
@@ -58,3 +59,4 @@ console.log("value image", value);
 };
 
 export default ImageUpload;
+
